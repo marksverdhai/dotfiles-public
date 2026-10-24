@@ -139,8 +139,10 @@ if [ "$($T show-options -gwv pane-border-status 2>/dev/null)" = "top" ]; then
   NAME="#{?#{!=:#{pane_title},#{host}},#{pane_title},#{pane_current_command}}"
   HEART="#{?#{m:* #{pane_id} *,#(cat /tmp/heartbeat-active-panes 2>/dev/null)},#[fg=$BAD]$G_HEART ,}"
   STICK="#{==:#{s/^%//:pane_id},#(cat /tmp/talking-stick-holder 2>/dev/null | tr -d '%\\n')}"
-  # holder: one solid amber pill — mic, the word STICK, id, name
-  P_STICK="#[fg=$WARN]$L#[bg=$WARN#,fg=$BG#,bold]$G_MIC STICK  #{pane_id}  $NAME#[bg=default#,fg=$WARN#,nobold]$R"
+  # heartbeat drawn dark on amber so it survives inside the holder pill
+  HEART_ON_STICK="#{?#{m:* #{pane_id} *,#(cat /tmp/heartbeat-active-panes 2>/dev/null)},$G_HEART ,}"
+  # holder: one solid amber pill — mic, the word STICK, heartbeat, id, name
+  P_STICK="#[fg=$WARN]$L#[bg=$WARN#,fg=$BG#,bold]$G_MIC STICK  $HEART_ON_STICK#{pane_id}  $NAME#[bg=default#,fg=$WARN#,nobold]$R"
   # active: two-tone pill like the active window (solid id, glass title)
   P_ACTIVE="#[fg=$ACCENT]$L#[bg=$ACCENT#,fg=$BG#,bold]#{pane_id}#[bg=$CHIP#,fg=$ACCENT#,nobold]$R $HEART#[fg=$INK]$NAME#[bg=default#,fg=$CHIP]$R"
   # inactive: same shape, no fill
